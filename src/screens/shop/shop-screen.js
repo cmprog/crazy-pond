@@ -1,11 +1,13 @@
 import { GameTheme } from "../../constants.js";
 import { Bubble } from "../../entities/bubbles.js";
-import { HAT_INFOS, HAT_NAMES } from "../../systems/hats.js";
+import { HAT_INFOS, HAT_NAMES } from "../../equipment/hats.js";
+import { WEAPON_INFOS } from "../../equipment/weapons.js";
 import { randWorldPos } from "../../utils.js";
 import { GameScreen } from "../game-screen.js";
 import { MainMenuScreen } from "../main-menu-screen.js";
 import { HatButton } from "./hat-button.js";
 import { UIPagedLayout } from "./paged-layout.js";
+import { WeaponButton } from "./weapon-button.js";
 
 let bubblePositions = null;
 let bubbleSizes = null;
@@ -76,6 +78,16 @@ export class ShopScreen extends GameScreen {
             button.onClick = () => this._buyHat(button);
             itemLayout.addChild(button);
         }
+
+        for (const weapon of WEAPON_INFOS) {
+            
+            const tileInfo = this.game.sprites.weapons[weapon.name];
+
+            const button = new WeaponButton(weapon, tileInfo, weapon.price);
+            button.setHasBeenPurchased(this.game.purchasedWeapons[weapon.name], weapon.name == this.game.currentWeaponName);
+            button.onClick = () => this._buyWeapon(button);
+            itemLayout.addChild(button);
+        }
         
         this.backButton = new UIButton(vec2(100, 40), vec2(200, 80), 'Back');
         this.backButton.color = GameTheme.DefaultButtonColor;
@@ -103,6 +115,23 @@ export class ShopScreen extends GameScreen {
             this.game.purchasedHats[hatButton.hat.name] = true;
 
             hatButton.setHasBeenPurchased(true, true);
+        }
+
+    }
+
+    /**
+     * @param {WeaponButton} button 
+     */
+    _buyWeapon(button) {
+
+        if (this.game.hasMoney(button.price)) {
+
+            this.game.spendMoney(button.price);
+            this.game.currentWeaponName = button.weapon.name;
+            
+            this.game.purchasedWeapons[button.weapon.name] = true;
+
+            button.setHasBeenPurchased(true, true);
         }
 
     }

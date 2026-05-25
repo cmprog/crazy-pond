@@ -1,25 +1,9 @@
-export class HatInfo {
-    constructor(name, price, centerPoint, rotation) {
+import { Equipment } from "./equipment.js";
 
-        /**
-         * @type {string}
-         */
-        this.name = name;
-        
-        /**
-         * @type {number}
-         */
-        this.price = price;
-        
-        /**
-         * @type {string}
-         */
-        this.centerPoint = centerPoint;
-        
-        /**
-         * @type {number}
-         */
-        this.rotation = rotation;
+export class HatInfo extends Equipment {
+    
+    constructor(name, price, alignmentPos, rotation) {
+        super(name, price, alignmentPos, rotation);
     }
 }
 

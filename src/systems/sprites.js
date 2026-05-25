@@ -1,5 +1,6 @@
 import { FishSizes } from "../constants.js";
-import { HAT_NAMES } from "./hats.js";
+import { HAT_NAMES } from "../equipment/hats.js";
+import { WEAPON_INFOS, WEAPON_NAMES, WEAPONS } from "../equipment/weapons.js";
 
 export class SpriteAtlas {
 
@@ -21,11 +22,18 @@ export class SpriteAtlas {
         for (const hatName of HAT_NAMES) {            
             this.images.push(`img/hats/${hatName}.png`);
         }
+
+        for (const weapon of WEAPON_INFOS) {
+            
+            const imagePath = `img/weapons/${weapon.imgSrc}.png`
+
+            if (!this.images.includes(imagePath)) {
+                this.images.push(imagePath);
+            }            
+        }
     }
 
     init() {
-
-        
 
         this.bubbles = {
             colored: {
@@ -52,7 +60,13 @@ export class SpriteAtlas {
         this.hats = {};
         for (const hatName of HAT_NAMES) {
             const textureInfo = textureInfos.find(v => v.image.src.includes(`hats/${hatName}.png`));
-            this.hats[hatName] = new TileInfo(vec2(0), vec2(128), textureInfo)
+            this.hats[hatName] = new TileInfo(vec2(0), vec2(128), textureInfo);
+        }
+
+        this.weapons = {};
+        for (const weaponInfo of WEAPON_INFOS) {
+            const textureInfo = textureInfos.find(v => v.image.src.includes(`weapons/${weaponInfo.imgSrc}.png`));
+            this.weapons[weaponInfo.name] = new TileInfo(weaponInfo.pos, weaponInfo.size, textureInfo);
         }
     }
 }

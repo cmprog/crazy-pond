@@ -5,6 +5,11 @@ const SHOP_BUTTON_TILE_RATIO = 0.6;
 
 export class ShopButton extends UIButton {
 
+    /**
+     * 
+     * @param {TileInfo} tileInfo 
+     * @param {number} price 
+     */
     constructor(tileInfo, price) {
         super();
 
@@ -33,7 +38,7 @@ export class ShopButton extends UIButton {
         this.priceText.canBeHover = false;
         this.layout.addChild(this.priceText);
 
-        const targetTileSize = vec2(min(this.size.x, this.size.y)).scale(SHOP_BUTTON_TILE_RATIO);
+        const targetTileSize = tileInfo.size.normalize(min(this.size.x, this.size.y) * SHOP_BUTTON_TILE_RATIO);
 
         this.tile = new UITile(vec2(0), targetTileSize, tileInfo);
         this.tile.canBeHover = false;

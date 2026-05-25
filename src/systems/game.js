@@ -23,7 +23,7 @@ export class Game
         /**
          * @type {string>}
          */
-        this.money = 0;
+        this.money = 100000;
 
         /**
          * @type {string>}
@@ -34,6 +34,26 @@ export class Game
          * @type {Object<string, boolean>}
          */
         this.purchasedHats = {};
+
+        /**
+         * @type {string>}
+         */
+        this.currentWeaponName = null;
+
+        /**
+         * @type {Object<string, boolean>}
+         */
+        this.purchasedWeapons = {};
+
+        /**
+         * @type {string>}
+         */
+        this.currentBulletName = null;
+
+        /**
+         * @type {Object<string, boolean>}
+         */
+        this.purchasedBullets = {};
 
         new UISystemPlugin();
         uiSystem.defaultCornerRadius = 8;

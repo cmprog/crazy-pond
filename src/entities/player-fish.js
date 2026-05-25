@@ -1,9 +1,18 @@
 import { HealthComponent } from "../components/health-component.js";
+import { HATS } from "../equipment/hats.js";
+import { WEAPONS } from "../equipment/weapons.js";
 import { GAME } from "../main.js";
 import { getWorldSize } from "../utils.js";
 import { BaseEntity } from "./base-entity.js";
 import { FishEntity } from "./fish-entity.js";
 import { HatEntity } from "./hat-entity.js";
+import { WeaponEntity } from "./weapon-entity.js";
+
+const WEAPON_ANCHOR_POS_RATIO = vec2(0.5, -0.5);
+const WEAPON_SIZE_SCALE = 0.8;
+
+const HAT_ANCHOR_POS_RATIO = vec2(0.25, 0.50)
+const HAT_SIZE_SCALE = 1.0;
 
 export class PlayerFish extends FishEntity
 {
@@ -24,9 +33,24 @@ export class PlayerFish extends FishEntity
         this.spawnPosition = this.pos.copy();
         this.healthComponent.update();
 
+        /**
+         * @type {HatEntity}
+         */
+        this.hat = null;
+
         if (GAME.currentHatName) {
             this.hat = new HatEntity(GAME.currentHatName);
             this.addChild(this.hat, vec2(0, 1));
+        }
+        
+        /**
+         * @type {WeaponEntity}
+         */
+        this.weapon = null;
+
+        if (GAME.currentWeaponName) {
+            this.weapon = new WeaponEntity(WEAPONS[GAME.currentWeaponName]);
+            this.addChild(this.weapon, this.size.multiply(WEAPON_ANCHOR_POS_RATIO));
         }
     }
 
@@ -50,19 +74,44 @@ export class PlayerFish extends FishEntity
         if (this.hat) {
             
             this.hat.mirror = this.mirror;
-
-            const HAT_SIZE_SCALE = 1;
             
             this.hat.drawSize = vec2(this.drawSize.y * HAT_SIZE_SCALE);
 
-            const HAT_OFFSET_RATIO_X = 0.25;
-            const HAT_OFFSET_RATIO_Y = 0.50;
+            const hatInfo = HATS[this.hat.hatName];
 
-            this.hat.localPos = vec2(
-                this.drawSize.x * HAT_OFFSET_RATIO_X,
-                this.drawSize.y * HAT_OFFSET_RATIO_Y
-            );
+            this._updateEquipmentLocalPos(
+                this, HAT_ANCHOR_POS_RATIO,
+                this.hat, hatInfo.alignmentPos
+            )
+
+            this.hat.localPos = this.drawSize.multiply(HAT_ANCHOR_POS_RATIO);
         }
+
+        if (this.weapon) {
+
+            this.weapon.mirror = this.mirror;
+
+            this.weapon.drawSize = this.weapon.tileInfo.size.normalize(this.drawSize.y * WEAPON_SIZE_SCALE);
+                        
+            this._updateEquipmentLocalPos(
+                this, WEAPON_ANCHOR_POS_RATIO, 
+                this.weapon, this.weapon.weaponInfo.alignmentPos);
+        }
+    }
+
+    /**
+     * 
+     * @param {BaseEntity} parent 
+     * @param {BaseEntity} child 
+     */
+    _updateEquipmentLocalPos(parent, parentAnchorPosRatio, child, childAlignmentPos) {
+            
+            const childAlignmentPosRatio = childAlignmentPos.divide(child.tileInfo.size);
+            const childAlignmentPosScaled = child.drawSize.multiply(childAlignmentPosRatio).scale(0.5);
+
+            const parentAnchorPos = parent.drawSize.multiply(parentAnchorPosRatio).scale(0.5);
+
+            child.localPos = parentAnchorPos.add(childAlignmentPosScaled);
     }
 
     /**

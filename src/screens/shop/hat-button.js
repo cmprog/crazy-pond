@@ -1,4 +1,4 @@
-import { HatInfo } from "../../systems/hats.js";
+import { HatInfo } from "../../equipment/hats.js";
 import { ShopButton } from "./shop-button.js";
 
 export class HatButton extends ShopButton {
