@@ -20,6 +20,11 @@ export const RenderLayers = {
 export const GameTheme = {
 
     DefaultButtonColor: rgb255(15, 7, 245),
+    DefaultButtonTextColor: WHITE,
     DefaultButtonTextHeight: 32,
 
+    ShopButtonSize: vec2(120, 100),
+
+    ShopButtonEquippedColor: rgb255(22, 74, 30),
+    ShopButtonEquippedTextColor: WHITE,
 }

@@ -3,7 +3,7 @@ import { Bubble } from "../entities/bubbles.js";
 import { formatMoney, randWorldPos, rgb255 } from "../utils.js";
 import { GameScreen } from "./game-screen.js";
 import { GameplayScreen } from "./gameplay-screen.js";
-import { ShopScreen } from "./shop-screen.js";
+import { ShopScreen } from "./shop/shop-screen.js";
 
 let bubblePositions = null;
 let bubbleSizes = null;
@@ -100,7 +100,6 @@ export class MainMenuScreen extends GameScreen {
         newGameButton.color = GameTheme.DefaultButtonColor;
         newGameButton.textColor = WHITE;
         newGameButton.textHeight = GameTheme.DefaultButtonTextHeight;
-        newGameButton.disabled = true;
         newGameButton.onClick = () => this.newGame();
         this.buttonLayout.addChild(newGameButton);
 
@@ -145,6 +144,8 @@ export class MainMenuScreen extends GameScreen {
     }
 
     newGame() {
+
+        this.game.reset();
         this.game.loadScreen(new GameplayScreen());
     }
 

@@ -257,6 +257,8 @@ export class GameplayScreen extends GameScreen {
 
         this.bubbleSpawner.destroy();
 
+        this.scoreText.destroy();
+
         this.game.earnMoney(this.playerFish.score);
 
     }

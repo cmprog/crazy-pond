@@ -1,21 +1,5 @@
 import { FishSizes } from "../constants.js";
-
-const HAT_NAMES = [    
-    'antlers',
-    'army',
-    'baseballCap',
-    'bicorn',
-    'birthday',
-    'bowlerHat',
-    'bunny',
-    'captains',
-    'catEars',
-    'crown',
-    'hotdog',
-    'horseHead',
-    'shark',
-    'viking',
-];
+import { HAT_NAMES } from "./hats.js";
 
 export class SpriteAtlas {
 

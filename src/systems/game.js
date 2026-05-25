@@ -20,8 +20,20 @@ export class Game
 
         this.sprites.init();
 
+        /**
+         * @type {string>}
+         */
         this.money = 0;
+
+        /**
+         * @type {string>}
+         */
         this.currentHatName = null;
+
+        /**
+         * @type {Object<string, boolean>}
+         */
+        this.purchasedHats = {};
 
         new UISystemPlugin();
         uiSystem.defaultCornerRadius = 8;
@@ -94,5 +106,10 @@ export class Game
 
     spendMoney(amount) {
         this.money -= amount;
+    }
+
+    reset() {
+        this.money = 0;
+        this.currentHatName = null;
     }
 }
