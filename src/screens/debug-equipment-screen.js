@@ -1,7 +1,7 @@
 import { BULLET_NAMES } from "../equipment/bullets.js";
-import { HAT_NAMES } from "../equipment/hats.js";
+import { HATS, HAT_NAMES } from "../equipment/hats.js";
 import { WEAPON_NAMES } from "../equipment/weapons.js";
-import { PlayerFish } from "../entities/player-fish.js";
+import { HAT_ANCHOR_POS_RATIO, PlayerFish } from "../entities/player-fish.js";
 import { rgb255 } from "../utils.js";
 import { GameScreen } from "./game-screen.js";
 import { MainMenuScreen } from "./main-menu-screen.js";
@@ -212,15 +212,32 @@ export class DebugEquipmentScreen extends GameScreen {
     }
 
     _drawAnchors() {
-        const cross = (pos, color) => {
-            drawRect(pos, vec2(0.15, 0.02), color);
-            drawRect(pos, vec2(0.02, 0.15), color);
+        const cross = (pos, size, color) => {
+            drawRect(pos, vec2(size, 0.02), color);
+            drawRect(pos, vec2(0.02, size), color);
         };
 
-        cross(this._fish.pos, FISH_COLOR);
-        if (this._fish.hat)    cross(this._fish.hat.pos,    HAT_COLOR);
-        if (this._fish.weapon) cross(this._fish.weapon.pos, WEAPON_COLOR);
-        if (this._fish.bullet) cross(this._fish.bullet.pos, BULLET_COLOR);
+        // Fish center — small reference crosshair
+        cross(this._fish.pos, 0.08, rgb(0.6, 0.6, 0.6));
+
+        // Fish hat anchor — the point the hat brim should land on
+        const fishHatAnchor = this._fish.pos.add(
+            this._fish.drawSize.multiply(HAT_ANCHOR_POS_RATIO).scale(0.5)
+        );
+        cross(fishHatAnchor, 0.18, FISH_COLOR);
+
+        if (this._fish.hat) {
+            const hat    = this._fish.hat;
+            const hatInfo = HATS[hat.hatName];
+            // Hat brim in world: hat center minus the alignment offset
+            // (by construction, this equals fishHatAnchor when the values are correct)
+            const alignScaled = hat.drawSize.multiply(hatInfo.alignmentPos.divide(hat.tileInfo.size)).scale(0.5);
+            const hatBrim = hat.pos.subtract(alignScaled);
+            cross(hatBrim, 0.18, HAT_COLOR);
+        }
+
+        if (this._fish.weapon) cross(this._fish.weapon.pos, 0.15, WEAPON_COLOR);
+        if (this._fish.bullet) cross(this._fish.bullet.pos, 0.15, BULLET_COLOR);
     }
 
     _drawBoundingBoxes() {

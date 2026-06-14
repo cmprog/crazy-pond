@@ -9,7 +9,7 @@ import { FishEntity } from "./fish-entity.js";
 import { HatEntity } from "./hat-entity.js";
 import { WeaponEntity } from "./weapon-entity.js";
 
-const HAT_ANCHOR_POS_RATIO = vec2(0.25, 0.50)
+export const HAT_ANCHOR_POS_RATIO = vec2(0.50, 1.0)
 const HAT_SIZE_SCALE = 1.0;
 
 const WEAPON_ANCHOR_POS_RATIO = vec2(0.5, -0.5);
@@ -97,9 +97,7 @@ export class PlayerFish extends FishEntity
             this._updateEquipmentLocalPos(
                 this, HAT_ANCHOR_POS_RATIO,
                 this.hat, hatInfo.alignmentPos
-            )
-
-            this.hat.localPos = this.drawSize.multiply(HAT_ANCHOR_POS_RATIO);
+            );
         }
 
         if (this.weapon) {
