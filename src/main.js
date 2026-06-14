@@ -2,6 +2,10 @@ import { Game } from './systems/game.js';
 
 export const GAME = new Game();
 
+window.DEV = {
+    addMoney: (amount = 1000) => GAME.earnMoney(amount),
+};
+
 engineInit(
     GAME.init.bind(GAME),
     GAME.update.bind(GAME), 
