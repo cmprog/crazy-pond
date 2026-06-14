@@ -74,8 +74,4 @@ export class ShopButton extends UIButton {
 
         }   
     }
-
-    update() {
-        super.update();
-    }
 }

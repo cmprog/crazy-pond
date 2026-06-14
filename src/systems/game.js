@@ -23,7 +23,7 @@ export class Game
         /**
          * @type {string>}
          */
-        this.money = 100000;
+        this.money = 0;
 
         /**
          * @type {string>}
@@ -131,5 +131,10 @@ export class Game
     reset() {
         this.money = 0;
         this.currentHatName = null;
+        this.purchasedHats = {};
+        this.currentWeaponName = null;
+        this.purchasedWeapons = {};
+        this.currentBulletName = null;
+        this.purchasedBullets = {};
     }
 }

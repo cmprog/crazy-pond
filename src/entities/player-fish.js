@@ -1,18 +1,22 @@
 import { HealthComponent } from "../components/health-component.js";
+import { BULLETS } from "../equipment/bullets.js";
 import { HATS } from "../equipment/hats.js";
 import { WEAPONS } from "../equipment/weapons.js";
 import { GAME } from "../main.js";
 import { getWorldSize } from "../utils.js";
 import { BaseEntity } from "./base-entity.js";
+import { BulletEntity } from "./bullet-entity.js";
 import { FishEntity } from "./fish-entity.js";
 import { HatEntity } from "./hat-entity.js";
 import { WeaponEntity } from "./weapon-entity.js";
 
+const HAT_ANCHOR_POS_RATIO = vec2(0.25, 0.50)
+const HAT_SIZE_SCALE = 1.0;
+
 const WEAPON_ANCHOR_POS_RATIO = vec2(0.5, -0.5);
 const WEAPON_SIZE_SCALE = 0.8;
 
-const HAT_ANCHOR_POS_RATIO = vec2(0.25, 0.50)
-const HAT_SIZE_SCALE = 1.0;
+const BULLET_SIZE_SCALE = 2.0;
 
 export class PlayerFish extends FishEntity
 {
@@ -48,9 +52,19 @@ export class PlayerFish extends FishEntity
          */
         this.weapon = null;
 
+        /**
+         * @type {BulletEntity}
+         */
+        this.bullet = null;
+
         if (GAME.currentWeaponName) {
             this.weapon = new WeaponEntity(WEAPONS[GAME.currentWeaponName]);
             this.addChild(this.weapon, this.size.multiply(WEAPON_ANCHOR_POS_RATIO));
+
+            if (GAME.currentBulletName) {
+                this.bullet = new BulletEntity(BULLETS[GAME.currentBulletName]);
+                this.weapon.addChild(this.bullet, this.weapon.size.multiply(this.weapon.weaponInfo.muzzlePos.divide(this.weapon.weaponInfo.size)))
+            }
         }
     }
 
@@ -96,6 +110,18 @@ export class PlayerFish extends FishEntity
             this._updateEquipmentLocalPos(
                 this, WEAPON_ANCHOR_POS_RATIO, 
                 this.weapon, this.weapon.weaponInfo.alignmentPos);
+
+            if (this.bullet) {
+
+                this.bullet.mirror = this.mirror;
+                this.bullet.drawSize = this.bullet.tileInfo.size.normalize(this.weapon.drawSize.y * BULLET_SIZE_SCALE);
+
+                this._updateEquipmentLocalPos(
+                    this.weapon, this.weapon.weaponInfo.muzzlePos.divide(this.weapon.weaponInfo.size),
+                    this.bullet, this.bullet.bulletInfo.alignmentPos
+                );
+
+            }
         }
     }
 

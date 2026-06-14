@@ -81,11 +81,18 @@ export class AIComponent
         if (entity.pos.x > halfWorldSize.x + entity.size.x + 1) {
             entity.velocity.x = -entity.velocity.x;
             entity.pos.x = halfWorldSize.x + entity.size.x;
-
         } else if (entity.pos.x < -halfWorldSize.x - entity.size.x - 1) {
             entity.velocity.x = -entity.velocity.x;
             entity.pos.x = -halfWorldSize.x - entity.size.x;
-        }     
+        }
+
+        if (entity.pos.y > halfWorldSize.y + entity.size.y + 1) {
+            entity.velocity.y = -entity.velocity.y;
+            entity.pos.y = halfWorldSize.y + entity.size.y;
+        } else if (entity.pos.y < -halfWorldSize.y - entity.size.y - 1) {
+            entity.velocity.y = -entity.velocity.y;
+            entity.pos.y = -halfWorldSize.y - entity.size.y;
+        }
 
         if (this.stateTimer.elapsed()) {   
             this.randomStateChange();

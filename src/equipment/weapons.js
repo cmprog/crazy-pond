@@ -32,7 +32,7 @@ export class WeaponInfo extends Equipment {
  *  @type {Object.<string, WeaponInfo>}
  */
 export const WEAPONS = {
-    'flamethrower': new WeaponInfo('flamethrower', 'blasters', vec2(64, 85), vec2(32, 11), 3500, vec2(9, 5), vec2(31, 4), 0),
+    'flamethrower': new WeaponInfo('flamethrower', 'blasters', vec2(64, 85), vec2(32, 11), 3500, vec2(9, 5), vec2(34, 5), 0),
 }
 
 /**

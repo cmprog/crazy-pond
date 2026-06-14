@@ -1,4 +1,5 @@
 import { FishSizes } from "../constants.js";
+import { BULLET_INFOS } from "../equipment/bullets.js";
 import { HAT_NAMES } from "../equipment/hats.js";
 import { WEAPON_INFOS, WEAPON_NAMES, WEAPONS } from "../equipment/weapons.js";
 
@@ -31,6 +32,15 @@ export class SpriteAtlas {
                 this.images.push(imagePath);
             }            
         }
+
+        for (const bullet of BULLET_INFOS) {
+            
+            const imagePath = `img/weapons/${bullet.imgSrc}.png`
+
+            if (!this.images.includes(imagePath)) {
+                this.images.push(imagePath);
+            }            
+        }
     }
 
     init() {
@@ -48,15 +58,6 @@ export class SpriteAtlas {
         this.fish[FishSizes.MEDIUM] = new TileInfo(vec2(0), vec2(16), textureInfos[3]);
         this.fish[FishSizes.LARGE] = new TileInfo(vec2(0), vec2(16), textureInfos[4]);
 
-        this.weapons = {
-            blasters: {
-                flameThrower: new TileInfo(vec2(0), vec2(16), textureInfos[5]),
-            },
-            ammo: {
-                flame: new TileInfo(vec2(0), vec2(16), textureInfos[6]),
-            }
-        };
-
         this.hats = {};
         for (const hatName of HAT_NAMES) {
             const textureInfo = textureInfos.find(v => v.image.src.includes(`hats/${hatName}.png`));
@@ -67,6 +68,12 @@ export class SpriteAtlas {
         for (const weaponInfo of WEAPON_INFOS) {
             const textureInfo = textureInfos.find(v => v.image.src.includes(`weapons/${weaponInfo.imgSrc}.png`));
             this.weapons[weaponInfo.name] = new TileInfo(weaponInfo.pos, weaponInfo.size, textureInfo);
+        }
+
+        this.bullets = {};
+        for (const bulletInfo of BULLET_INFOS) {
+            const textureInfo = textureInfos.find(v => v.image.src.includes(`weapons/${bulletInfo.imgSrc}.png`));
+            this.bullets[bulletInfo.name] = new TileInfo(bulletInfo.pos, bulletInfo.size, textureInfo);
         }
     }
 }

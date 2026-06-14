@@ -1,4 +1,4 @@
-import { BaseEntity } from "./base-entity";
+import { BaseEntity } from "./base-entity.js";
 
 export class EffectEntity extends BaseEntity
 {
@@ -12,11 +12,11 @@ export class EffectEntity extends BaseEntity
         this.lifetime = lifetime;
     }
 
-    update(deltaTime)
+    update()
     {
-        super.update(deltaTime);
+        super.update();
 
-        this.lifetime -= deltaTime;
+        this.lifetime -= timeDelta;
 
         if (this.lifetime <= 0)
         {

@@ -27,6 +27,8 @@ export class BubbleSpawner {
 
     update() {
 
+        this.bubbleGroups = this.bubbleGroups.filter(g => !g.destroyed);
+
         if (!this.bubbleTimer) {
             this.bubbleTimer = new Timer(this.bubbleSpawnInterval);
         }

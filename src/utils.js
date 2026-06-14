@@ -26,7 +26,7 @@ export function getCurrentWorldHalfSize() {
 
 export function randWorldPos() {
     return vec2(
-        rand(-currentHalfWorldSize.x, currentHalfWorldSize.y),
+        rand(-currentHalfWorldSize.x, currentHalfWorldSize.x),
         rand(-currentHalfWorldSize.y, currentHalfWorldSize.y)
     );
 }
