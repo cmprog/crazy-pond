@@ -1,14 +1,13 @@
 import { RenderLayers } from "../constants.js";
 import { BulletInfo } from "../equipment/bullets.js";
-import { GAME } from "../main.js";
 import { BaseEntity } from "./base-entity.js";
 
 export class BulletEntity extends BaseEntity {
 
-    constructor(bulletInfo) {
+    constructor(bulletInfo, tileInfo) {
 
         super();
-        
+
         /**
          * @type {BulletInfo}
          */
@@ -22,7 +21,7 @@ export class BulletEntity extends BaseEntity {
         /**
          * @type {TileInfo}
          */
-        this.tileInfo = GAME.sprites.bullets[this.bulletInfo.name];
+        this.tileInfo = tileInfo;
     }
 
 }

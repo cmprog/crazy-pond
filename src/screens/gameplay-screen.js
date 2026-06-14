@@ -52,9 +52,10 @@ export class GameplayScreen extends GameScreen {
 
         setCanvasClearColor(rgb255(17, 175, 242));
         
-        this.playerFish = new PlayerFish({            
+        this.playerFish = new PlayerFish({
             position: vec2(0, 0),
             moveSpeed: 0.15,
+            game,
         });
 
         this.playerFish.tileInfo = game.sprites.player;

@@ -2,7 +2,6 @@ import { HealthComponent } from "../components/health-component.js";
 import { BULLETS } from "../equipment/bullets.js";
 import { HATS } from "../equipment/hats.js";
 import { WEAPONS } from "../equipment/weapons.js";
-import { GAME } from "../main.js";
 import { getWorldSize } from "../utils.js";
 import { BaseEntity } from "./base-entity.js";
 import { BulletEntity } from "./bullet-entity.js";
@@ -22,9 +21,11 @@ export class PlayerFish extends FishEntity
 {
     constructor(options = {})
     {
+        const { game, ...entityOptions } = options;
+
         super({
             fishType: 'player_fish',
-            ...options,
+            ...entityOptions,
         });
 
         this.healthComponent = new HealthComponent({
@@ -42,11 +43,11 @@ export class PlayerFish extends FishEntity
          */
         this.hat = null;
 
-        if (GAME.currentHatName) {
-            this.hat = new HatEntity(GAME.currentHatName);
+        if (game.currentHatName) {
+            this.hat = new HatEntity(game.currentHatName, game.sprites.hats[game.currentHatName]);
             this.addChild(this.hat, vec2(0, 1));
         }
-        
+
         /**
          * @type {WeaponEntity}
          */
@@ -57,13 +58,13 @@ export class PlayerFish extends FishEntity
          */
         this.bullet = null;
 
-        if (GAME.currentWeaponName) {
-            this.weapon = new WeaponEntity(WEAPONS[GAME.currentWeaponName]);
+        if (game.currentWeaponName) {
+            this.weapon = new WeaponEntity(WEAPONS[game.currentWeaponName], game.sprites.weapons[game.currentWeaponName]);
             this.addChild(this.weapon, this.size.multiply(WEAPON_ANCHOR_POS_RATIO));
 
-            if (GAME.currentBulletName) {
-                this.bullet = new BulletEntity(BULLETS[GAME.currentBulletName]);
-                this.weapon.addChild(this.bullet, this.weapon.size.multiply(this.weapon.weaponInfo.muzzlePos.divide(this.weapon.weaponInfo.size)))
+            if (game.currentBulletName) {
+                this.bullet = new BulletEntity(BULLETS[game.currentBulletName], game.sprites.bullets[game.currentBulletName]);
+                this.weapon.addChild(this.bullet, this.weapon.size.multiply(this.weapon.weaponInfo.muzzlePos.divide(this.weapon.weaponInfo.size)));
             }
         }
     }

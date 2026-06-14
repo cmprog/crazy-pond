@@ -1,14 +1,13 @@
 import { RenderLayers } from "../constants.js";
 import { WeaponInfo } from "../equipment/weapons.js";
-import { GAME } from "../main.js";
 import { BaseEntity } from "./base-entity.js";
 
 export class WeaponEntity extends BaseEntity {
 
-    constructor(weaponInfo) {
+    constructor(weaponInfo, tileInfo) {
 
         super();
-        
+
         /**
          * @type {WeaponInfo}
          */
@@ -22,7 +21,7 @@ export class WeaponEntity extends BaseEntity {
         /**
          * @type {TileInfo}
          */
-        this.tileInfo = GAME.sprites.weapons[this.weaponInfo.name];
+        this.tileInfo = tileInfo;
     }
 
 }
