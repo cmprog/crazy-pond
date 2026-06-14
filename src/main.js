@@ -1,9 +1,11 @@
 import { Game } from './systems/game.js';
+import { DebugEquipmentScreen } from './screens/debug-equipment-screen.js';
 
 export const GAME = new Game();
 
 window.DEV = {
     addMoney: (amount = 1000) => GAME.earnMoney(amount),
+    openEquipmentDebug: () => GAME.loadScreen(new DebugEquipmentScreen()),
 };
 
 engineInit(
